@@ -151,8 +151,7 @@ def build_penalty_matrix(v_sc_list):
         blocks.append(Q_s)
     return block_diag(*blocks)
 
-# Heuristic lambda
-
+# Obtain estimates for noise variance and outcome variance using hierarchical effects model
 def get_hierarchical_effects_decomposition(data_disagg: np.array, n_c: np.array, t: float, vals: float):
 
 
@@ -212,7 +211,7 @@ def get_hierarchical_effects_decomposition(data_disagg: np.array, n_c: np.array,
 
     return (var_eps, var_y)
 
-
+# Heuristic lambda
 def get_lambda_heuristic(var_eps: float, var_y: float):
     """
     Obtain lambda through the heuristic proposed in the paper.
@@ -227,11 +226,19 @@ def get_lambda_heuristic(var_eps: float, var_y: float):
         
     return l_h
 
-def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q: np.array, var_y: float, t_cv: float, t: float):
+# Cross-validation lambda
+def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q: np.array, var_y: float, t_cv: float, t: float, lambda_grid: np.array):
     """
     Obtain lambda through cross-validation proposed in the paper.
 
-    v
+    target_mat: (T,) - array of outcomes for treated aggregated unit
+    contorl_mat: (N_disagg, T) - array of outcomes for control disaggregated units
+    nc_c: (N_agg-1,) - array of number of disaggregated units for all control units
+    Q: penalty matrix
+    var_y: estimated outcome variance
+    t_cv: integer indicating first cross-validation period
+    t: integer indicating treated period
+    lambda_grid: lambda grid the estimator is searching over
     
     Returns: l_cv
     """
@@ -279,7 +286,7 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q
     
 
     
-
+# mlSC estimator
 def mlSC(data_agg: np.array,data_disagg: np.array, vals: float, n_c: np.array, t: float, w_c: np.array, lambda_est = None, lambda_val = 0.0001, lambda_grid = np.concatenate(([0], np.logspace(np.log10(1e-8), np.log10(5), 50),np.logspace(np.log10(10), np.log10(1000), 5))), t_cv_periods = 1):
     """
     Finds a vector for aggregated-disaggregated data (penalized) using a heuristic or cross-validation over time.
@@ -339,7 +346,7 @@ def mlSC(data_agg: np.array,data_disagg: np.array, vals: float, n_c: np.array, t
     if lambda_est == "heuristic":
         l_star = get_lambda_heuristic(var_eps, var_y)
     if lambda_est == "cross-validation":
-        l_star = get_lambda_cv(target_mat, control_mat, nc_c, Q, var_y, t-t_cv_periods, t)
+        l_star = get_lambda_cv(target_mat, control_mat, nc_c, Q, var_y, t-t_cv_periods, t, lambda_grid)
     else:
         print("None of the estimation methods you specified for lambda are valied. Please specify "heuristic" or "cross-validation". Alternatively, if you want to feed in a single value for lambda, select None 
         and set lambda_val equal to your desired value.")
