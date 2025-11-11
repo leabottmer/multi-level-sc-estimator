@@ -1,4 +1,4 @@
-# multi-level-sc-estimator
+# Multi-level Synthetic Control Estimator
 
 [![PyPI](https://img.shields.io/pypi/v/multi-level-sc-estimator.svg)](https://pypi.org/project/multi-level-sc-estimator/)
 [![Tests](https://github.com/leabottmer/multi-level-sc-estimator/actions/workflows/test.yml/badge.svg)](https://github.com/leabottmer/multi-level-sc-estimator/actions/workflows/test.yml)
