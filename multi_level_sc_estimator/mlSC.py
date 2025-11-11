@@ -348,8 +348,10 @@ def mlSC(data_agg: np.array,data_disagg: np.array, vals: float, n_c: np.array, t
     elif lambda_est == "cross-validation":
         l_star = get_lambda_cv(target_mat, control_mat, nc_control, Q, var_y, t-t_cv_periods, t, lambda_grid)
     else:
-        print("None of the estimation methods you specified for lambda are valied. Please specify "heuristic" or "cross-validation". Alternatively, if you want to feed in a single value for lambda, select None 
-        and set lambda_val equal to your desired value.")
+        raise ValueError(
+            'Invalid lambda_est value. Please specify "heuristic", "cross-validation", '
+            'or set lambda_est=None and provide a numeric lambda_val.'
+        )
 
     " Obtain final estimates "
 
