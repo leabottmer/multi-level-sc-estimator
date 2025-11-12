@@ -1,4 +1,4 @@
-from multi_level_sc_estimator import mlSC
+from multi_level_sc_estimator.mlSC import mlSC_estimator
 import pandas as pd
 import numpy as np
 
