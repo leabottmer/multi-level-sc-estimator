@@ -151,7 +151,18 @@ def build_penalty_matrix(v_sc_list):
 
 # Obtain estimates for noise variance and outcome variance using hierarchical effects model
 def get_hierarchical_effects_decomposition(data_disagg: np.array, n_c: np.array, t: float, vals: float):
+    """
+    Obtain hierarchical effects through simple hierarchical random effects decomposition.
 
+    data_disagg: (N_disagg, T) - array of outcomes for all disaggregated units
+    n_c: (N_agg,) - each entry represents the number of disaggregated units in each aggregated unit
+    t: integer indicating the period in which treatment is assigned 
+    vals: integer indicating which aggregated unit is treated
+    
+    Returns: 
+    var_eps: estimated noise variance
+    var_y: estimated outcome variance
+    """
 
     N_agg = len(n_c)
     
@@ -225,12 +236,13 @@ def get_lambda_heuristic(var_eps: float, var_y: float):
     return l_h
 
 # Cross-validation lambda
-def get_lambda_cv(target_mat: np.array, control_mat: np.array, control_mat_state: np.array, nc_c: np.array, Q: np.array, var_y: float, t_cv: float, t: float, lambda_grid: np.array):
+def get_lambda_cv(target_mat: np.array, control_mat: np.array, control_mat_agg: np.array, nc_c: np.array, Q: np.array, var_y: float, t_cv: float, t: float, lambda_grid: np.array):
     """
     Obtain lambda through cross-validation proposed in the paper.
 
     target_mat: (T,) - array of outcomes for treated aggregated unit
     control_mat: (N_disagg, T) - array of outcomes for control disaggregated units
+    control_mat_agg: (N_agg, T) - arrays of outcomes for control aggregated units
     nc_c: (N_agg-1,) - array of number of disaggregated units for all control units
     Q: penalty matrix
     var_y: estimated outcome variance
@@ -254,7 +266,7 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, control_mat_state
     constraints = [cp.sum(weights) == 1, weights >= 0] # convexity constraints
     
     # Initialize weights as SC solution for a warm start
-    data_agg_new = np.vstack((target_mat,control_mat_state))
+    data_agg_new = np.vstack((target_mat,control_mat_agg))
     data_agg_cv = data_agg_new[:,:t]
     sc_agg_cv = synthetic_control(data_agg_cv, 0, t_cv)
     w_sc = sc_agg_cv[1]
@@ -322,7 +334,7 @@ def mlSC_estimator(data_agg: np.array,data_disagg: np.array, vals: float, n_c: n
     control_mat = np.delete(data_disagg, list(range(ind_start,ind_end)),axis = 0) # control matrix: drops counties for treated state
     nc_control = np.delete(n_c,vals) # Array with number of disaggregated units for all control units
     num_controls,T = control_mat.shape # Number of controls and total time periods
-    control_mat_state = np.delete(data_agg, vals, axis = 0)
+    control_mat_agg = np.delete(data_agg, vals, axis = 0)
     
     " Define weights for optimization problem, lambda and constraints and block penalty matrix Q "
     weights = cp.Variable(num_controls)
@@ -343,7 +355,7 @@ def mlSC_estimator(data_agg: np.array,data_disagg: np.array, vals: float, n_c: n
     elif lambda_est == "heuristic":
         l_star = get_lambda_heuristic(var_eps, var_y)
     elif lambda_est == "cross-validation":
-        l_star = get_lambda_cv(target_mat, control_mat, control_mat_state, nc_control, Q, var_y, t-t_cv_periods, t, lambda_grid)
+        l_star = get_lambda_cv(target_mat, control_mat, control_mat_agg, nc_control, Q, var_y, t-t_cv_periods, t, lambda_grid)
     else:
         raise ValueError(
             'Invalid lambda_est value. Please specify "heuristic", "cross-validation", '
