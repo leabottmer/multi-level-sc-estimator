@@ -18,7 +18,7 @@ pip install multi-level-sc-estimator
 Usage instructions go here.
 
 ## References
-Lea Bottmer, **Synthetic Control with Disaggregated Data**, 2025. [link](https://leabottmer.github.io/job_market/jmp_bottmer.pdf)
+Lea Bottmer, **Synthetic Control with Disaggregated Data**, 2025. [[link]](https://leabottmer.github.io/job_market/jmp_bottmer.pdf)
 
 ## Development
 
