@@ -8,7 +8,7 @@ authors = [{name = "null"}]
 license = "Apache-2.0"
 classifiers = []
 dependencies = [
-'numpy','cvx'
+'numpy','cvxpy', 'pandas','os','ray','time','itertools','random','scipy.linalg'
 ]
 
 [build-system]
