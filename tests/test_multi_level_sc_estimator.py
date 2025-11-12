@@ -2,7 +2,7 @@ from multi_level_sc_estimator import mlSC
 import pandas as pd
 
 # Read data
-url = 'https://github.com/leabottmer/multi-level-sc-estimator/tests/ia_emp_app_teen_empl.csv'
+url = 'https://raw.githubusercontent.com/leabottmer/multi-level-sc-estimator/refs/heads/main/tests/ia_emp_app_teen_empl.csv'
 datamat_county = pd.read_csv(url)
 
 states = datamat_county.iloc[:, -1].unique()
