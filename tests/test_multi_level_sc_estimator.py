@@ -65,7 +65,7 @@ def test_mlSC_estimator_functionality():
     # Define county weights
     county_weights = generate_equal_state_weights(N_states, n_c)
     
-    mlSC_results = mlSC_estimator(data_s,data_c, idx, n_c, t, county_weights, lambda_est = "heuristic")
+    mlSC_results = mlSC_estimator(data_s,data_c, idx, n_c, t, county_weights, lambda_est = "cross-validation")
 
     # Add assertions to check mlSC_results here
     assert mlSC_results is not None  # Check for some expected outcome
