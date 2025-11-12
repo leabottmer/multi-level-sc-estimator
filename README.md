@@ -16,12 +16,77 @@ Install this library using `pip`:
 pip install multi-levelSC
 ```
 ## Example
+In this example, I simulate county- and state-level data from a hierarchical linear latent factor model. I then apply the multi-level SC estimator, using the heuristic to estimate the penalty parameter. Alternatively, if I wanted to use cross-validation over time, I could specify "cross-validation" as the lambda_est method. 
 
 ```bash
+
+#####################
+### Generate data ###
+#####################
+
+np.random.seed(42)
+
+# --- Parameters ---
+N_states = 10
+counties_per_state = 10 # each state has the same number of counties in this example
+n_c = np.full(N_states, counties_per_state)  # array of number of counties per state
+T = 20
+
+# Standard deviations for each component
+sigma_time = 1.0       # time factor scale
+sigma_state = 0.8      # state loading scale
+sigma_county = 0.5     # county-level deviation scale
+sigma_eps = 0.3        # idiosyncratic noise scale
+
+# --- Generate latent factors ---
+# Single time factor (T × 1)
+time_factor = np.random.normal(0, sigma_time, size=(T, 1))
+
+# State-level loadings (N_states × 1)
+state_loadings = np.random.normal(0, sigma_state, size=(N_states, 1))
+
+# County-level deviations (N_states * counties_per_state × 1)
+n_counties = N_states * counties_per_state
+county_components = np.random.normal(0, sigma_county, size=(n_counties, 1))
+
+# --- Map counties to states ---
+state_idx = np.repeat(np.arange(N_states), counties_per_state)
+county_in_state_idx = np.tile(np.arange(counties_per_state), N_states)
+
+# --- Combine state and county effects ---
+county_loadings = state_loadings[state_idx] + county_components  # (n_counties × 1)
+
+# --- Generate outcome matrix at disaggregate level ---
+# data_c_{s,c,t} = county_loading_sc * time_factor_t + ε_{s,c,t}
+eps = np.random.normal(0, sigma_eps, size=(n_counties, T))
+data_c = county_loadings @ time_factor.T + eps  # (n_counties × T)
+
+# --- Population weights within each state ---
+# Each county gets equal weight = 1 / number of counties in its state
+w_c = [np.full(n_c[s], 1 / n_c[s]) for s in range(N_states)] # IMPORTANT: this needs to be a list of arrays!
+
+# --- Aggregate data by state using population weights ---
+data_s = np.zeros((N_states, T))
+for s in range(N_states):
+    # Weighted average across all counties in state s
+    counties_in_s = np.where(state_idx == s)[0]
+    data_s[s, :] = np.average(data_c[counties_in_s, :], axis=0, weights=w_c[s])
+
+# --- Treated unit and time period ---
+idx = 0
+t = 19
+
+################
+### Analysis ###
+################
+
+# Import estimator
 from multi_level_sc_estimator.mlSC import mlSC_estimator
 
 # Define data sets, treated unit, treated period, population weights (w_c) and how to estimate lambda.
 mlSC_results = mlSC_estimator(data_s,data_c, idx, n_c, t, w_c, lambda_est = "heuristic")
+
+# Display results
 tau_hat = mlSC_results[0]
 lambda_hat = mlSC_results[1]
 w_hat = mlSC_results[2]
