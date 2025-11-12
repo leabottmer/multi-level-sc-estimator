@@ -269,7 +269,7 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, control_mat_state
     for v in lambda_grid:
         if v ==0: # Run sc_counties if v=0
             data_agg_disagg_new = np.vstack((target_mat,control_mat)) # target: state, control: counties
-            data_agg_disagg_cv = data_agg_new[:,:t]
+            data_agg_disagg_cv = data_agg_disagg_new[:,:t]
             sc_sc = synthetic_control_counties(data_agg_disagg_cv,0,t_cv)
             cv_error.append(float(np.mean((Y_test-X_test.T@sc_sc[1])**2)))
         else:
