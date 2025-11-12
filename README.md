@@ -16,7 +16,13 @@ pip install multi-level-sc-estimator
 ## Example
 
 ```bash
-pip install multi-level-sc-estimator
+from multi_level_sc_estimator.mlSC import mlSC_estimator
+
+# Define data sets, treated unit, treated period, population weights (w_c) and how to estimate lambda.
+mlSC_results = mlSC_estimator(data_s,data_c, idx, n_c, t, w_c, lambda_est = "heuristic")
+tau_hat = mlSC_results[0]
+lambda_hat = mlSC_results[1]
+w_hat = mlSC_results[2]
 ```
 
 ## References
