@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/leabottmer/multi-level-sc-estimator/blob/main/LICENSE)
 
 This package implements the multi-level SC estimator (mlSC) for the treatment effect for a single, treated, aggregated unit in panel data with multiple levels of aggregation, as proposed in [Bottmer (2025)](https://leabottmer.github.io/job_market/jmp_bottmer.pdf). 
+We observe matrices of outcomes at the disaggregate and the aggregate level. Treatment is assigned at the aggregate level and the goal is to obtain a treatment effect estimate at the aggregate level. The package captures cases for a single aggregated treated unit, possibly over multiple time periods (where treatment is assumed to never turn off). The multi-level SC estimator will use the disaggregated data as a starting point to estimate a synthetic control for the entire aggregated treated unit. It augments the objective function by adding a hierarchical penalty parameter that shrinks the flexible solution towards the classical synthetic control estimator that treats each state as a single unit. The penalty parameter is estimated using either (1) cross-validation over time or (2) a heuristic.
 
 This package is currently in beta and the functionality and interface is subject to change.
 
@@ -16,7 +17,7 @@ Install this library using `pip`:
 pip install multi-levelSC
 ```
 ## Example
-In this example, I simulate county- and state-level data from a hierarchical linear latent factor model. I then apply the multi-level SC estimator, using the heuristic to estimate the penalty parameter. Alternatively, if I wanted to use cross-validation over time, I could specify "cross-validation" as the lambda_est method. 
+In this example, data at the county- and state-level is simulated from a hierarchical linear latent factor model. Then, the multi-level SC estimator is applied, using the heuristic to estimate the penalty parameter. Alternatively, if the user can use cross-validation over time by specifying "cross-validation" as the lambda_est method (and additionally a lambda_grid, if desired). 
 
 ```bash
 
