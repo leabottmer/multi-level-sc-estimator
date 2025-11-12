@@ -283,7 +283,6 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q
     return l_cv
     
 
-    
 # mlSC estimator
 def mlSC_estimator(data_agg: np.array,data_disagg: np.array, vals: float, n_c: np.array, t: float, w_c: np.array, lambda_est = None, lambda_val = 0.0001, lambda_grid = np.concatenate(([0], np.logspace(np.log10(1e-8), np.log10(5), 50),np.logspace(np.log10(10), np.log10(1000), 5))), t_cv_periods = 1):
     """
