@@ -64,7 +64,4 @@ jobs:
         path: dist/
     - name: Publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@release/v1  # Ensure this is the correct action
-      with:
-        repository: https://test.pypi.org/legacy/
-        username: __token__  # Use the token for authentication
-        password: ${{ secrets.TESTPYPI_API_TOKEN }}  # Set up this secret in your repository
+      
