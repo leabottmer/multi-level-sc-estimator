@@ -65,6 +65,9 @@ jobs:
       with:
         name: python-packages
         path: dist/
-    - name: Publish to TEst PyPI
-      uses: pypa/gh-action-test.pypi-publish@release/v1
-
+    - name: Publish to Test PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository: https://test.pypi.org/legacy/
+        username: __token__
+        password: pypi-AgENdGVzdC5weXBpLm9yZwIkNTI0MjhmZTMtOWM1OC00NjMzLWE2NjgtYzUzYjA4MDgzOWVlAAIqWzMsIjUzOTllMjZiLTgwNGEtNDY5Yy04NDQ5LWYyZDM0NzQ4YWZkYiJdAAAGIDwgXLhueLZjxEc30EEPW_ThZbf49bfigKCt5W6a12Xa
