@@ -7,6 +7,8 @@
 
 This package implements the multi-level SC estimator (mlSC) for the treatment effect for a single, treated, aggregated unit in panel data with multiple levels of aggregation, as proposed in Bottmer (2025). 
 
+This package is currently in beta and the functionality and interface is subject to change.
+
 ## Installation
 
 Install this library using `pip`:
