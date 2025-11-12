@@ -13,9 +13,11 @@ Install this library using `pip`:
 ```bash
 pip install multi-level-sc-estimator
 ```
-## Usage
+## Example
 
-Usage instructions go here.
+```bash
+pip install multi-level-sc-estimator
+```
 
 ## References
 Lea Bottmer. **Synthetic Control with Disaggregated Data**, 2025. [[link]](https://leabottmer.github.io/job_market/jmp_bottmer.pdf)
