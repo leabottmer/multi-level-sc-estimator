@@ -254,9 +254,10 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q
     constraints = [cp.sum(weights) == 1, weights >= 0] # convexity constraints
     
     # Initialize weights as SC solution for a warm start
-    data_state_cv = data_state[:,:t]
-    sc_state_cv = synthetic_control(data_state_cv, vals, t_cv)
-    w_sc = sc_state_cv[1]
+    data_agg_new = np.vstack((target_mat,control_mat))
+    data_agg_cv = data_agg_new[:,:t]
+    sc_agg_cv = synthetic_control(data_agg_cv, 0, t_cv)
+    w_sc = sc_agg_cv[1]
     weights.value = np.repeat(w_sc / nc_c, nc_c)
 
     # Define optimization problem
@@ -267,9 +268,7 @@ def get_lambda_cv(target_mat: np.array, control_mat: np.array, nc_c: np.array, Q
     cv_error = []
     for v in lambda_grid:
         if v ==0: # Run sc_counties if v=0
-            data_new_l = np.vstack((target_mat,control_mat))
-            data_new = data_new_l[:,:t] # reduce matrix to only pre-treatment time periods
-            sc_sc = synthetic_control_counties(data_new,0,t_cv)
+            sc_sc = synthetic_control_counties(data_agg_cv,0,t_cv)
             cv_error.append(float(np.mean((Y_test-X_test.T@sc_sc[1])**2)))
         else:
             lambd.value = v
