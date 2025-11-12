@@ -62,7 +62,7 @@ def generate_equal_state_weights(n_states, n_counties_per_state):
 # Define county weights
 county_weights = generate_equal_state_weights(N_states, n_c)
 
-mlSC_results = mlSC(data_s,data_c, idx, n_c, t, county_weights, lambda_est = "heuristic")
+mlSC_results = mlSC_estimator(data_s,data_c, idx, n_c, t, county_weights, lambda_est = "heuristic")
 
 tau_est_ml_sc = mlSC_results[0]
 lamba_est_ml_sc = mlSC_results[1]
