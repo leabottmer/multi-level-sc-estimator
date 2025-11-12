@@ -1,5 +1,5 @@
 [project]
-name = "multi-level-sc-estimator"
+name = "multi-levelSC"
 version = "0.1"
 description = "Package to implement the multi-level SC estimator"
 readme = "README.md"
