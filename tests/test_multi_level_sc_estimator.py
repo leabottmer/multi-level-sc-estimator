@@ -1,4 +1,5 @@
 from multi_level_sc_estimator import mlSC
+import pandas as pd
 
 # Read data
 datamat_county = pd.read_csv('ia_emp_app_teen_empl.csv')
