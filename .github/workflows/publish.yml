@@ -56,6 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     needs: [build]
+    permission:
+      id-token: write # Ensure OIDC token permissions are set
     steps:
     - name: Download distribution packages
       uses: actions/download-artifact@v4
