@@ -1,5 +1,6 @@
 from multi_level_sc_estimator import mlSC
 import pandas as pd
+import numpy as np
 
 # Read data
 url = 'https://raw.githubusercontent.com/leabottmer/multi-level-sc-estimator/refs/heads/main/tests/ia_emp_app_teen_empl.csv'
