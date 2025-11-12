@@ -3,7 +3,7 @@ name = "multi-level-sc-estimator"
 version = "0.1"
 description = "Package to implement the multi-level SC estimator"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 authors = [{name = "null"}]
 license = "Apache-2.0"
 classifiers = []
