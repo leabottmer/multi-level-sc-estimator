@@ -54,7 +54,9 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     needs: [build]
-    environment: release
+    environment: 
+      name: testpypi
+      url: https://test.pypi.org/p/multi-levelSC_test
     permissions:
       id-token: write
     steps:
@@ -63,6 +65,6 @@ jobs:
       with:
         name: python-packages
         path: dist/
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+    - name: Publish to TEst PyPI
+      uses: pypa/gh-action-test.pypi-publish@release/v1
 
