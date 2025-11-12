@@ -20,6 +20,7 @@ Usage instructions go here.
 ## References
 Lea Bottmer. **Synthetic Control with Disaggregated Data**, 2025. [[link]](https://leabottmer.github.io/job_market/jmp_bottmer.pdf)
 
+''
 ## Development
 
 To contribute to this library, first checkout the code. Then create a new virtual environment:
@@ -36,3 +37,4 @@ To run the tests:
 ```bash
 python -m pytest
 ```
+''
