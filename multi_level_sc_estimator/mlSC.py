@@ -320,7 +320,7 @@ def mlSC_estimator(data_agg: np.array,data_disagg: np.array, vals: float, n_c: n
     ind_end = cumulative_sum[vals]
     control_mat = np.delete(data_disagg, list(range(ind_start,ind_end)),axis = 0) # control matrix: drops counties for treated state
     nc_control = np.delete(n_c,vals) # Array with number of disaggregated units for all control units
-    num_controls = control_mat.shape[0] # Number of controls
+    num_controls,T = control_mat.shape # Number of controls and total time periods
     
     " Define weights for optimization problem, lambda and constraints and block penalty matrix Q "
     weights = cp.Variable(num_controls)
