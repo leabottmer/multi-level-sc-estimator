@@ -67,4 +67,4 @@ jobs:
       with:
         repository: https://test.pypi.org/legacy/
         username: __token__  # Use the token for authentication
-        password: ${{ secrets.TESTPYPI_TOKEN }}  # Set up this secret in your repository
+        password: ${{ secrets.TESTPYPI_API_TOKEN }}  # Set up this secret in your repository
