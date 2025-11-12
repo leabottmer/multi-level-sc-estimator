@@ -313,8 +313,6 @@ def mlSC(data_agg: np.array,data_disagg: np.array, vals: float, n_c: np.array, t
     
     """
 
-    var_eps: np.array, var_y:float
-
     " Define target and control"
     target_mat = data_agg[vals,] # target matrix
     cumulative_sum = np.cumsum(n_c)
