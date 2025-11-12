@@ -13,7 +13,7 @@ This package is currently in beta and the functionality and interface is subject
 
 Install this library using `pip`:
 ```bash
-pip install multi-level-sc-estimator
+pip install multi-levelSC
 ```
 ## Example
 
